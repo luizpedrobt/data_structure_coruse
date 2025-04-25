@@ -12,6 +12,7 @@ array *array_create_array(uint32_t length)
 
     v->data = (uint32_t *)malloc(length * sizeof(uint32_t));
     v->n = 0;
+    v->size_reserved = length;
 
     return v;
 }
@@ -24,7 +25,16 @@ void array_erase_array(array *v)
 
 void array_add_element(array *v, uint32_t x)
 {
-    uint32_t i;
+    uint32_t i, *temp;
+    if(v->n == v->size_reserved)
+    {
+        temp = v->data;
+        v->size_reserved *= 2;
+        v->data = (uint32_t*)malloc(v->size_reserved * sizeof(uint32_t));
+        for(i = 0; i < v->n; i++)
+            v->data[i] = temp[i];
+        free(temp);
+    }
     for(i = v->n - 1; i >= 0 && v->data[i] > x; i--)
         v->data[i + i] = v->data[i];
 

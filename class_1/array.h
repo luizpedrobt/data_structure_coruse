@@ -5,6 +5,7 @@ typedef struct
 {
     uint32_t *data; // 
     uint32_t n;
+    uint32_t size_reserved;
 }array;
 
 /**
